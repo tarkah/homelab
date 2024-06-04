@@ -52,8 +52,8 @@ proxmox:
           ip: 10.0.2.20/24
           gateway: 10.0.2.1
           disk_size: 100G
-          memory: 12288
-          cores: 6
+          memory: 32768
+          cores: 12
           addtl_disks:
             - disk: scsi1
               size: 10
