@@ -1,37 +1,6 @@
 ---
-services:
-  caddy:
-    build: ./caddy/
-    ports:
-      # Internal
-      - 80:80
-      - 443:443
-      # External
-      - 8443:8443
-    environment:
-      - CLOUDFLARE_API_TOKEN
-    networks:
-      homelab:
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/data/caddy:/data/caddy
-    labels:
-      caddy.email: ${HOMELAB_EMAIL}
-      caddy.acme_ca: https://acme-v02.api.letsencrypt.org/directory
-      caddy_0: (common)
-      caddy_0.tls.dns: cloudflare {env.CLOUDFLARE_API_TOKEN} 
-      caddy_0.tls.resolvers: 1.1.1.1
-    restart: unless-stopped
-
-  whoami:
-    image: traefik/whoami
-    networks:
-      homelab:
-    labels:
-      # External and internal
-      caddy: whoami.${HOMELAB_DOMAIN} https://whoami.${HOMELAB_DOMAIN}:8443
-      caddy.import: common
-      caddy.reverse_proxy: "{{upstreams 80}}"
+include:
+  - caddy/docker-compose.yml
 
 networks:
   homelab:
