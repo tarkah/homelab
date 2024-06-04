@@ -34,8 +34,8 @@ proxmox:
           name: nfs01
           template: *debian12
           disk_size: 10
-          memory: 512
-          swap: 512
+          memory: 4096
+          swap: 2048
           cores: 2
           mounts:
             mp0: /rpool/NAS,mp=/storage
