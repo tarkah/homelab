@@ -38,7 +38,7 @@
       memory: "{{ item.memory }}"
       balloon: "{{ item.memory }}"
       net:
-        net0: "virtio={{ item.mac }},bridge=vmbr0"
+        net0: "virtio={{ item.mac }},bridge=vmbr1"
       ipconfig:
         ipconfig0: "ip={{ item.ip }},gw={{ item.gateway }}"
       ciuser: root

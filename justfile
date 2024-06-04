@@ -20,7 +20,7 @@ deploy:
 
 # Show logs
 logs *SERVICE:
-    ssh -t tarkah@10.0.1.70 -- docker compose -f ./deploy/docker-compose.yml logs --follow {{SERVICE}}
+    ssh -t tarkah@10.0.2.20 -- docker compose -f ./deploy/docker-compose.yml logs --follow {{SERVICE}}
 
 # Ping hosts using provided pattern
 ping pattern="all":

@@ -30,7 +30,7 @@
       ide:
         ide2: "{{ pve_vm_storage }}:cloudinit,format=raw"
       net:
-        net0: "virtio,bridge=vmbr0"
+        net0: "virtio,bridge=vmbr1"
       bios: ovmf
       efidisk0:
         storage: "{{ pve_vm_storage }}"

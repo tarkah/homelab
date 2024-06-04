@@ -11,13 +11,13 @@ servers:
 containers:
   hosts:
     nfs01:
-      ansible_host: 10.0.1.60
+      ansible_host: 10.0.2.10
 vms:
   hosts:
     docker01:
-      ansible_host: 10.0.1.70
+      ansible_host: 10.0.2.20
       nfs_client_mounts:
-        - src: 10.0.1.60:/storage
+        - src: 10.0.2.10:/storage
           dest: /mnt/storage
       disk_mounts:
         - src: /dev/sdb
@@ -39,8 +39,8 @@ proxmox:
           cores: 2
           mounts:
             mp0: /rpool/NAS,mp=/storage
-          ip: 10.0.1.60/24
-          gateway: 10.0.1.1
+          ip: 10.0.2.10/24
+          gateway: 10.0.2.1
           mac: BC:24:11:56:68:00
           unprivileged: false
           features:
@@ -49,8 +49,8 @@ proxmox:
         - vmid: 200
           name: docker01
           mac: BC:24:11:56:68:AA
-          ip: 10.0.1.70/24
-          gateway: 10.0.1.1
+          ip: 10.0.2.20/24
+          gateway: 10.0.2.1
           disk_size: 100G
           memory: 12288
           cores: 6
