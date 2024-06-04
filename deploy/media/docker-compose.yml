@@ -1,0 +1,120 @@
+---
+services:
+  sabnzbd:
+    image: linuxserver/sabnzbd:latest
+    volumes:
+      - /mnt/data/sabnzbd:/config
+      - /mnt/storage/media/downloads/complete:/downloads
+      - /mnt/storage/media/downloads/incomplete:/incomplete-downloads
+    environment:
+      - PGID
+      - PUID
+      - TZ
+    labels:
+      caddy: sabnzbd.${HOMELAB_DOMAIN}
+      caddy.import: common
+      caddy.reverse_proxy: "{{upstreams 8080}}"
+    networks:
+      homelab:
+    restart: unless-stopped
+
+  sonarr:
+    image: linuxserver/sonarr:latest
+    volumes:
+      - /mnt/data/sonarr:/config
+      - /mnt/storage/media/downloads/complete:/downloads
+      - /mnt/storage/media/tv:/tv
+    environment:
+      - PGID
+      - PUID
+      - TZ
+    labels:
+      caddy: sonarr.${HOMELAB_DOMAIN}
+      caddy.import: common
+      caddy.reverse_proxy: "{{upstreams 8989}}"
+    networks:
+      homelab:
+    restart: unless-stopped
+
+  radarr:
+    image: linuxserver/radarr:latest
+    volumes:
+      - /mnt/data/radarr:/config
+      - /mnt/storage/media/downloads/complete:/downloads
+      - /mnt/storage/media/movies:/movies
+    environment:
+      - PGID
+      - PUID
+      - TZ
+    labels:
+      caddy: radarr.${HOMELAB_DOMAIN}
+      caddy.import: common
+      caddy.reverse_proxy: "{{upstreams 7878}}"
+    networks:
+      homelab:
+    restart: unless-stopped
+
+  lidarr:
+    image: linuxserver/lidarr:latest
+    volumes:
+      - /mnt/data/lidarr:/config
+      - /mnt/storage/media/downloads/complete:/downloads
+      - /mnt/storage/media/music:/music
+    environment:
+      - PGID
+      - PUID
+      - TZ
+    labels:
+      caddy: lidarr.${HOMELAB_DOMAIN}
+      caddy.import: common
+      caddy.reverse_proxy: "{{upstreams 8686}}"
+    networks:
+      homelab:
+    restart: unless-stopped
+
+  overseerr:
+    image: linuxserver/overseerr:latest
+    environment:
+      - PUID
+      - PGID
+      - TZ
+    volumes:
+      - /mnt/data/overseerr:/config
+    labels:
+      caddy: overseerr.${HOMELAB_DOMAIN} https://overseerr.${HOMELAB_DOMAIN}:8443
+      caddy.import: common
+      caddy.reverse_proxy: "{{upstreams 5055}}"
+    networks:
+      homelab:
+    restart: unless-stopped
+
+  plex:
+    image: linuxserver/plex
+    ports:
+      - 32400:32400
+      - 1900:1900/udp
+      - 5353:5353/udp
+      - 8324:8324
+      - 32410:32410/udp
+      - 32412:32412/udp
+      - 32413:32413/udp
+      - 32414:32414/udp
+      - 32469:32469
+    volumes:
+      - /mnt/data/plex:/config
+      - /mnt/storage/media/tv:/media/tv
+      - /mnt/storage/media/movies:/media/movies
+      - /mnt/storage/media/music:/media/music
+      - /home/tarkah/projects/misc/xteve_lazystream/appdata/xteve/.xteve/data/:/xteve/
+    environment:
+      - PGID
+      - PUID
+      - TZ
+      - VERSION=latest
+    labels:
+      caddy: plex.${HOMELAB_DOMAIN}
+      caddy.import: common
+      caddy.reverse_proxy: "{{upstreams 32400}}"
+    networks:
+      homelab:
+    restart: unless-stopped

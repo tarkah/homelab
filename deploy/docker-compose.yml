@@ -1,6 +1,7 @@
 ---
 include:
   - caddy/docker-compose.yml
+  - media/docker-compose.yml
 
 networks:
   homelab:
