@@ -1,0 +1,40 @@
+- name: Query container status
+  community.general.proxmox_vm_info:
+    api_user: root@pam
+    api_host: 127.0.0.1
+    api_password: "{{ root_password }}"
+    node: "{{ pve_node }}"
+    type: lxc
+    vmid: "{{ item.vmid }}"
+  register: result
+
+- name: Create container
+  when: result.proxmox_vms | length == 0
+  community.general.proxmox:
+    api_user: root@pam
+    api_host: 127.0.0.1
+    api_password: "{{ root_password }}"
+    node: "{{ pve_node }}"
+    vmid: "{{ item.vmid }}"
+    hostname: "{{ item.name }}"
+    ostemplate: "{{ pve_template_storage }}:vztmpl/{{ item.template }}"
+    cores: "{{ item.cores }}"
+    memory: "{{ item.memory }}"
+    swap: "{{ item.swap }}"
+    disk: "{{ pve_container_storage }}:{{ item.disk_size }}"
+    mounts: "{{ item.mounts }}"
+    password: "{{ root_password }}"
+    pubkey: "{{ ssh_key }}"
+    onboot: true
+    netif: '{"net0":"name=eth0,gw={{ item.gateway }},ip={{ item.ip }},hwaddr={{ item.mac }},bridge=vmbr0"}'
+    unprivileged: "{{ item.unprivileged }}"
+    features: "{{ item.features }}"
+
+- name: Start container
+  community.general.proxmox:
+    api_user: root@pam
+    api_host: 127.0.0.1
+    api_password: "{{ root_password }}"
+    node: "{{ pve_node }}"
+    vmid: "{{ item.vmid }}"
+    state: started

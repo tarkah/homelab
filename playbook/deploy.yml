@@ -1,0 +1,26 @@
+- name: Deploy
+  hosts: docker01
+  remote_user: root
+  tasks:
+  - name: Install deps
+    ansible.builtin.apt:
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - rsync
+  
+  - name: Synchronize deploy folder
+    ansible.posix.synchronize:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+    with_items:
+      - src: "{{ playbook_dir }}/../deploy"
+        dest: "/home/{{ username }}/"
+      - src: "{{ playbook_dir }}/../.env"
+        dest: "/home/{{ username }}/deploy"
+  
+  - name: Docker compose up
+    community.docker.docker_compose_v2:
+      project_src: "/home/{{ username }}/deploy"
+      state: present
+      dependencies: false

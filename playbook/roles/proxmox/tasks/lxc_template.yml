@@ -1,0 +1,9 @@
+- name: Download LXC template
+  community.general.proxmox_template:
+    api_user: root@pam
+    api_host: 127.0.0.1
+    api_password: "{{ root_password }}"
+    node: "{{ pve_node }}"
+    storage: "{{ pve_template_storage }}"
+    content_type: vztmpl
+    template: "{{ item }}"

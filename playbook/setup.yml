@@ -1,0 +1,35 @@
+- name: Setup proxmox servers
+  hosts: proxmox
+  remote_user: root
+  roles:
+    - role: common
+      setup_user: true
+    - role: proxmox
+
+- name: Setup containers
+  hosts: containers
+  remote_user: root
+  roles:
+    - role: common
+      setup_user: true
+
+- name: Setup nfs servers
+  hosts: nfs
+  remote_user: root
+  roles:
+    - role: geerlingguy.nfs
+
+- name: Setup VMs
+  hosts: vms
+  remote_user: root
+  roles:
+    - role: common
+      setup_user: true
+      qemu_guest: true
+      nfs_client: true
+
+- name: Setup docker servers
+  hosts: docker
+  remote_user: root
+  roles:
+    - role: geerlingguy.docker

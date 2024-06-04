@@ -1,0 +1,82 @@
+- name: Query VM status
+  community.general.proxmox_kvm:
+    api_user: root@pam
+    api_host: 127.0.0.1
+    api_password: "{{ root_password }}"
+    node: "{{ pve_node }}"
+    state: current
+    vmid: "{{ item.vmid }}"
+  ignore_errors: true
+  register: result
+
+- name: Create VM
+  when: result is failed
+  block:
+  - name: Clone VM from template
+    community.general.proxmox_kvm:
+      api_user: root@pam
+      api_host: 127.0.0.1
+      api_password: "{{ root_password }}"
+      node: "{{ pve_node }}"
+      vmid: "{{ pve_cloudinit_template_vmid }}"
+      clone: "dummy"
+      name: "{{ item.name }}"
+      newid: "{{ item.vmid }}"
+      storage: "{{ pve_vm_storage }}"
+
+  - name: Update VM
+    community.general.proxmox_kvm:
+      api_user: root@pam
+      api_host: 127.0.0.1
+      api_password: "{{ root_password }}"
+      node: "{{ pve_node }}"
+      vmid: "{{ item.vmid }}"
+      update: true
+      update_unsafe: true
+      onboot: true
+      cores: "{{ item.cores }}"
+      memory: "{{ item.memory }}"
+      balloon: "{{ item.memory }}"
+      net:
+        net0: "virtio={{ item.mac }},bridge=vmbr0"
+      ipconfig:
+        ipconfig0: "ip={{ item.ip }},gw={{ item.gateway }}"
+      ciuser: root
+      cipassword: "{{ root_password }}"
+      sshkeys: "{{ ssh_key }}"
+
+  - name: Grow root disk
+    community.general.proxmox_disk:
+      api_user: root@pam
+      api_host: 127.0.0.1
+      api_password: "{{ root_password }}"
+      vmid: "{{ item.vmid }}"
+      disk: scsi0
+      size: "{{ item.disk_size }}"
+      state: resized
+
+  - name: Create additional disks
+    with_items: "{{ item.addtl_disks }}"
+    loop_control:
+      loop_var: disk
+    community.general.proxmox_disk:
+      api_user: root@pam
+      api_host: 127.0.0.1
+      api_password: "{{ root_password }}"
+      vmid: "{{ item.vmid }}"
+      disk: "{{ disk.disk }}"
+      format: raw
+      storage: "{{ pve_vm_storage }}"
+      ssd: true
+      discard: "on"
+      size: "{{ disk.size }}"
+      backup: "{{ disk.backup }}"
+
+- name: Start VM
+  community.general.proxmox_kvm:
+    api_user: root@pam
+    api_host: 127.0.0.1
+    api_password: "{{ root_password }}"
+    node: "{{ pve_node }}"
+    state: started
+    vmid: "{{ item.vmid }}"

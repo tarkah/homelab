@@ -1,0 +1,12 @@
+---
+setup_user: false
+username: foo
+password: ''
+uid: 1000
+
+nfs_client: false
+nfs_client_mounts: []
+
+qemu_guest: false
+
+disk_mounts: []

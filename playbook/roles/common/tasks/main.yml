@@ -1,0 +1,21 @@
+- name: Update cache
+  ansible.builtin.apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Setup user
+  include_tasks: user.yml
+  when: setup_user | default(false) | bool
+
+- name: QEMU guest
+  include_tasks: qemu_guest.yml
+  when: qemu_guest | default(false) | bool
+
+- name: NFS Client
+  include_tasks: nfs_client.yml
+  when: nfs_client | default(false) | bool
+
+- name: Disk mounts
+  include_tasks: disk_mount.yml
+  when: disk_mounts | length > 0
+  with_items: "{{ disk_mounts }}"

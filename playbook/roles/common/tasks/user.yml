@@ -1,0 +1,57 @@
+- name: Install deps
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - whois
+    - fish
+    - sudo
+
+- name: Generate hashed password
+  ansible.builtin.shell: "mkpasswd --method=SHA-512 '{{ password }}'"
+  register: hashed_password_result
+  changed_when: false
+
+- name: Create user
+  ansible.builtin.user:
+    name: "{{ username }}"
+    password: "{{ hashed_password_result.stdout }}"
+    uid: "{{ uid }}"
+    append: true
+    groups:
+      - sudo
+    shell: /usr/bin/fish
+    state: present
+    update_password: on_create
+
+- name: Ensure .ssh directory exists for the user
+  ansible.builtin.file:
+    path: "/home/{{ username }}/.ssh"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0700"
+
+- name: Add SSH public key to authorized_keys
+  ansible.builtin.lineinfile:
+    path: "/home/{{ username }}/.ssh/authorized_keys"
+    line: "{{ ssh_key }}"
+    create: yes
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "0600"
+
+- name: Ensure fish config directory exists
+  ansible.builtin.file:
+    path: "/home/{{ username }}/.config/fish"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+
+- name: Install fish config
+  ansible.builtin.template:
+    src: config.fish.j2
+    dest: "/home/{{ username }}/.config/fish/config.fish"
+    mode: 0644
+    owner: "{{ username }}"
+    group: "{{ username }}"

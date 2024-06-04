@@ -1,0 +1,11 @@
+---
+collections:
+  - name: community.general
+    version: "9.0.0"
+  - name: community.docker
+    version: "3.10.3"
+roles:
+  - name: geerlingguy.nfs
+    version: "2.0.0"
+  - name: geerlingguy.docker
+    version: "7.2.0"

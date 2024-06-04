@@ -1,0 +1,70 @@
+all:
+  vars:
+    ssh_key: '{{ lookup("env", "HOMELAB_SSH_KEY") }}'
+    root_password: '{{ lookup("env", "HOMELAB_ROOT_PASSWORD") }}'
+    username: '{{ lookup("env", "HOMELAB_USERNAME") }}'
+    password: '{{ lookup("env", "HOMELAB_PASSWORD") }}'
+servers:
+  hosts:
+    pve01:
+      ansible_host: 10.0.1.50
+containers:
+  hosts:
+    nfs01:
+      ansible_host: 10.0.1.60
+vms:
+  hosts:
+    docker01:
+      ansible_host: 10.0.1.70
+      nfs_client_mounts:
+        - src: 10.0.1.60:/storage
+          dest: /mnt/storage
+      disk_mounts:
+        - src: /dev/sdb
+          dest: /mnt/data
+          fstype: ext4
+proxmox:
+  hosts:
+    pve01:
+      pve_node: pve01
+      pve_templates:
+        - &debian12 debian-12-standard_12.2-1_amd64.tar.zst
+      pve_containers:
+        - vmid: 100
+          name: nfs01
+          template: *debian12
+          disk_size: 10
+          memory: 512
+          swap: 512
+          cores: 2
+          mounts:
+            mp0: /rpool/NAS,mp=/storage
+          ip: 10.0.1.60/24
+          gateway: 10.0.1.1
+          mac: BC:24:11:56:68:00
+          unprivileged: false
+          features:
+            - nesting=1
+      pve_vms:
+        - vmid: 200
+          name: docker01
+          mac: BC:24:11:56:68:AA
+          ip: 10.0.1.70/24
+          gateway: 10.0.1.1
+          disk_size: 100G
+          memory: 12288
+          cores: 6
+          addtl_disks:
+            - disk: scsi1
+              size: 10
+              backup: true
+nfs:
+  hosts:
+    nfs01:
+      nfs_exports:
+        - "/storage *(rw,sync,no_subtree_check,insecure)"
+docker:
+  hosts:
+    docker01:
+      docker_users:
+        - "{{ username }}"

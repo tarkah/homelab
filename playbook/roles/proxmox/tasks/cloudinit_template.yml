@@ -1,0 +1,80 @@
+- name: Query cloudinit template status
+  community.general.proxmox_kvm:
+    api_user: root@pam
+    api_host: 127.0.0.1
+    api_password: "{{ root_password }}"
+    node: "{{ pve_node }}"
+    state: template
+    vmid: "{{ pve_cloudinit_template_vmid }}"
+  ignore_errors: true
+  register: cloudinit_template
+
+- name: Create cloudinit template
+  when: cloudinit_template is failed
+  block:
+  - name: Download debian cloudinit image
+    ansible.builtin.get_url:
+      url: "https://cloud.debian.org/images/cloud/{{ pve_debian_version_name }}/latest/debian-{{ pve_debian_version_number }}-generic-amd64.qcow2"
+      dest: "/root/debian-{{ pve_debian_version_name }}-cloudinit.qcow2"
+      mode: 0644
+    register: cloudinit_image
+
+  - name: Create new VM
+    community.general.proxmox_kvm:
+      api_user: root@pam
+      api_host: 127.0.0.1
+      api_password: "{{ root_password }}"
+      node: "{{ pve_node }}"
+      vmid: "{{ pve_cloudinit_template_vmid }}"
+      name: "debian{{ pve_debian_version_number }}-cloudinit"
+      ide:
+        ide2: "{{ pve_vm_storage }}:cloudinit,format=raw"
+      net:
+        net0: "virtio,bridge=vmbr0"
+      bios: ovmf
+      efidisk0:
+        storage: "{{ pve_vm_storage }}"
+        format: raw
+        efitype: 4m
+        pre_enrolled_keys: true
+      machine: q35
+      scsihw: virtio-scsi-pci
+      agent: enabled=1
+
+  - name: Create disk from image
+    community.general.proxmox_disk:
+      api_user: root@pam
+      api_host: 127.0.0.1
+      api_password: "{{ root_password }}"
+      vmid: "{{ pve_cloudinit_template_vmid }}"
+      import_from: "{{ cloudinit_image.dest }}"
+      disk: scsi0
+      format: raw
+      storage: "{{ pve_vm_storage }}"
+      ssd: true
+      discard: "on"
+
+  - name: Update VM
+    community.general.proxmox_kvm:
+      api_user: root@pam
+      api_host: 127.0.0.1
+      api_password: "{{ root_password }}"
+      node: "{{ pve_node }}"
+      vmid: "{{ pve_cloudinit_template_vmid }}"
+      update: true
+      boot: order=scsi0
+
+  - name: Convert VM to template
+    community.general.proxmox_kvm:
+      api_user: root@pam
+      api_host: 127.0.0.1
+      api_password: "{{ root_password }}"
+      node: "{{ pve_node }}"
+      vmid: "{{ pve_cloudinit_template_vmid }}"
+      state: template
+      template: true
+
+  - name: Remove cloudinit image
+    ansible.builtin.file:
+      path: "{{ cloudinit_image.dest }}"
+      state: absent

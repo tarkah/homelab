@@ -1,0 +1,23 @@
+- name: Create filesystem on the disk
+  ansible.builtin.filesystem:
+    dev: "{{ item.src }}"
+    fstype: "{{ item.fstype }}"
+
+- name: Create mount point
+  ansible.builtin.file:
+    path: "{{ item.dest }}"
+    state: directory
+
+- name: Mount disk
+  ansible.posix.mount:
+    src: "{{ item.src }}"
+    path: "{{ item.dest }}"
+    state: mounted
+    fstype: "{{ item.fstype }}"
+    boot: true
+
+- name: Update mount permissions
+  ansible.builtin.file:
+    path: "{{ item.dest }}"
+    state: directory
+    mode: "777"

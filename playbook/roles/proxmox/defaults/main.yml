@@ -1,0 +1,12 @@
+---
+# defaults file for proxmox
+pve_node: pve
+pve_debian_version_name: bookworm
+pve_debian_version_number: 12
+pve_cloudinit_template_vmid: 9001
+pve_template_storage: local
+pve_vm_storage: local-zfs
+pve_container_storage: local-zfs
+pve_templates: []
+pve_vms: []
+pve_containers: []

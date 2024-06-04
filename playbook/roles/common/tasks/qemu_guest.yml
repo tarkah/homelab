@@ -1,0 +1,10 @@
+- name: Ensure dependencies are installed.
+  ansible.builtin.apt:
+    name: qemu-guest-agent
+    state: present
+
+- name: Enable and start service
+  ansible.builtin.systemd:
+    name: qemu-guest-agent
+    enabled: yes
+    state: started
