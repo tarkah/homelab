@@ -18,6 +18,10 @@ setup *ARGS:
 deploy:
     ansible-playbook -i playbook/inventory playbook/deploy.yml
 
+# Update dns
+dns:
+    ansible-playbook -i playbook/inventory playbook/dns.yml
+
 # Show logs
 logs *SERVICE:
     ssh -t tarkah@10.0.2.20 -- docker compose -f ./deploy/docker-compose.yml logs --follow {{SERVICE}}
