@@ -18,6 +18,7 @@
   remote_user: root
   roles:
     - role: geerlingguy.nfs
+      tags: ["nfs"]
 
 - name: Setup VMs
   hosts: vms

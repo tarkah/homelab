@@ -63,7 +63,7 @@ nfs:
   hosts:
     nfs01:
       nfs_exports:
-        - "/storage *(rw,sync,no_subtree_check,insecure)"
+        - "/storage *(rw)"
 docker:
   hosts:
     docker01:
