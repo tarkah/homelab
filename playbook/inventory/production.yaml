@@ -55,6 +55,8 @@ proxmox:
           disk_size: 100G
           memory: 32768
           cores: 12
+          hostpci:
+            hostpci0: host=0000:00:02,pcie=1
           addtl_disks:
             - disk: scsi1
               size: 10
@@ -64,6 +66,9 @@ nfs:
     nfs01:
       nfs_exports:
         - "/storage *(rw)"
+igpu_guest:
+  hosts:
+    docker01:
 docker:
   hosts:
     docker01:

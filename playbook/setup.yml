@@ -29,6 +29,13 @@
       qemu_guest: true
       nfs_client: true
 
+- name: Setup iGPU guest
+  hosts: igpu_guest
+  remote_user: root
+  roles:
+    - role: common
+      igpu_guest: true
+
 - name: Setup docker servers
   hosts: docker
   remote_user: root

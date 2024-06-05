@@ -44,6 +44,7 @@
       ciuser: root
       cipassword: "{{ root_password }}"
       sshkeys: "{{ ssh_key }}"
+      hostpci: "{{ item.hostpci }}"
 
   - name: Grow root disk
     community.general.proxmox_disk:

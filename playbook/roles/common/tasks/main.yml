@@ -11,6 +11,10 @@
   include_tasks: qemu_guest.yml
   when: qemu_guest | default(false) | bool
 
+- name: iGPU guest
+  include_tasks: igpu_guest.yml
+  when: igpu_guest | default(false) | bool
+
 - name: NFS Client
   include_tasks: nfs_client.yml
   when: nfs_client | default(false) | bool

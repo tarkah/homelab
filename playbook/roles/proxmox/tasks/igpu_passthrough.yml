@@ -1,0 +1,36 @@
+- name: Add cmdline default
+  ansible.builtin.lineinfile:
+    path: /etc/default/grub
+    regexp: '^GRUB_CMDLINE_LINUX_DEFAULT='
+    line: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet intel_iommu=on iommu=pt"'
+    mode: '644'
+    state: present
+  notify:
+    - Update grub
+    - Reboot
+
+- name: Create vfio.conf
+  ansible.builtin.copy:
+    dest: /etc/modules-load.d/vfio.conf
+    content: |
+      vfio
+      vfio_iommu_type1
+      vfio_pci
+  notify:
+    - Update initramfs
+    - Reboot
+
+- name: Create igpu-passthrough.conf
+  ansible.builtin.copy:
+    dest: /etc/modprobe.d/igpu-passthrough.conf
+    content: |
+      options vfio-pci ids=8086:a7a0
+      options vfio_iommu_type1 allow_unsafe_interrupts=1
+      blacklist i915          
+  notify:
+    - Update initramfs
+    - Reboot
+
+- name: Flush handlers
+  meta: flush_handlers
+  register: flush

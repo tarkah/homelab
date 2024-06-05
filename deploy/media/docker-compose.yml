@@ -111,6 +111,8 @@ services:
       - PUID
       - TZ
       - VERSION=latest
+    devices:
+       - /dev/dri/renderD128:/dev/dri/renderD128
     labels:
       caddy: plex.${HOMELAB_DOMAIN}
       caddy.import: common

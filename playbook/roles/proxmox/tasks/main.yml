@@ -18,6 +18,9 @@
     - python3-proxmoxer
     - python3-requests
 
+- name: iGPU passthrough
+  include_tasks: igpu_passthrough.yml
+
 - name: LXC template
   include_tasks: lxc_template.yml
   with_items: "{{ pve_templates }}"

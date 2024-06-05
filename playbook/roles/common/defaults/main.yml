@@ -8,5 +8,6 @@ nfs_client: false
 nfs_client_mounts: []
 
 qemu_guest: false
+igpu_guest: false
 
 disk_mounts: []
