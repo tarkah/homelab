@@ -3,12 +3,9 @@ include:
   - caddy/docker-compose.yml
   - immich/docker-compose.yml
   - media/docker-compose.yml
+  - syncthing/docker-compose.yml
   - wireguard/docker-compose.yml
 
 networks:
   homelab:
     driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.18.0.0/16

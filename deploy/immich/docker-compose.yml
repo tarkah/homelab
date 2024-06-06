@@ -6,25 +6,22 @@ services:
       - /mnt/storage/photos:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
     environment:
-      HOST: "172.18.0.15"
+      HOST: "0.0.0.0"
       REDIS_HOSTNAME: immich-redis
       DB_HOSTNAME: immich-database
       DB_PASSWORD: ${IMMICH_DB_PASSWORD}
       DB_USERNAME: ${IMMICH_DB_USER}
       DB_DATABASE_NAME: ${IMMICH_DB_NAME}
-    # ports:
-    #   - 2283:3001
     depends_on:
       - immich-redis
       - immich-database
     user: ${PUID}:${PGID}
     networks:
       homelab:
-        ipv4_address: 172.18.0.15
     labels:
       caddy: photos.${HOMELAB_DOMAIN}
       caddy.import: common
-      caddy.reverse_proxy: "172.18.0.15:3001"
+      caddy.reverse_proxy: "{{upstreams 3001}}"
     restart: unless-stopped
 
   immich-microservices:

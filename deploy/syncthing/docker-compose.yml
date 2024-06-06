@@ -1,0 +1,21 @@
+services:
+  syncthing:
+    image: lscr.io/linuxserver/syncthing:latest
+    environment:
+      - PUID
+      - PGID
+      - TZ
+    volumes:
+      - /mnt/data/syncthing:/config
+      - /mnt/storage:/storage
+    ports:
+      - 22000:22000/tcp
+      - 22000:22000/udp
+      - 21027:21027/udp
+    networks:
+      homelab:
+    labels:
+      caddy: syncthing.${HOMELAB_DOMAIN}
+      caddy.import: common
+      caddy.reverse_proxy: "{{upstreams 8384}}"
+    restart: unless-stopped
