@@ -19,4 +19,5 @@
       - { record: lidarr, value: 10.0.2.20 }
       - { record: overseerr, value: 10.0.2.20 }
       - { record: plex, value: 10.0.2.20 }
+      - { record: photos, value: 10.0.2.20 }
       - { record: wireguard, value: 68.224.246.12 }
