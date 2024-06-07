@@ -25,6 +25,7 @@
             just
             fish
             rsync
+            borgmatic
 
             (python3.withPackages (p: with p; [
               jinja2

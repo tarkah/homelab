@@ -1,0 +1,28 @@
+services:
+  borgmatic:
+    image: ghcr.io/borgmatic-collective/borgmatic:latest
+    environment:
+      - TZ
+      - BORG_PASSPHRASE
+      - IMMICH_DB_USER
+      - IMMICH_DB_PASSWORD
+      - RSYNC_NET_USER
+      - RSYNC_NET_HOST
+      - RUN_ON_STARTUP=true
+    secrets:
+      - source: rsync_net
+        mode: 0400
+    volumes:
+      - /mnt/data:/data
+      - /mnt/storage:/storage
+      - ./crontab.txt:/etc/borgmatic.d/crontab.txt
+      - ./homelab-data.yml:/etc/borgmatic.d/homelab-data.yml
+      # - ./storage.yml:/etc/borgmatic.d/storage.yml
+      - /mnt/data/borgmatic/borg/config:/root/.config/borg
+      - /mnt/data/borgmatic/borg/cache:/root/.cache/borg
+    networks:
+      homelab:
+    restart: unless-stopped
+secrets:
+   rsync_net:
+     environment: "RSYNC_NET_SSHKEY"

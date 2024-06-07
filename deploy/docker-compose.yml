@@ -1,5 +1,6 @@
 ---
 include:
+  - borgmatic/docker-compose.yml
   - caddy/docker-compose.yml
   - immich/docker-compose.yml
   - media/docker-compose.yml

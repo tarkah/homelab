@@ -1,0 +1,40 @@
+patterns:
+  - "R /data/"
+  - "+ data/borgmatic/borg/config"
+  - "+ data/overseerr/settings.json"
+  - "+ data/sabnzbd/sabnzbd.ini"
+  - "+ re:^data\/(lidarr|sonarr|radarr)\/config.xml"
+  - "+ re:^data\/(plex|syncthing|wireguard)"
+  - "- data/**"
+repositories:
+  - path: /storage/backup/homelab
+    label: storage
+  - path: ssh://${RSYNC_NET_USER}@${RSYNC_NET_HOST}/./homelab
+    label: rsync_net
+working_directory: /data
+sqlite_databases:
+  - name: lidarr
+    path: data/lidarr/lidarr.db
+  - name: radarr
+    path: data/radarr/radarr.db
+  - name: sonarr
+    path: data/sonarr/sonarr.db
+  - name: overseerr
+    path: data/overseerr/db/db.sqlite3
+postgresql_databases:
+  - name: all
+    hostname: immich-database
+    username: ${IMMICH_DB_USER}
+    password: ${IMMICH_DB_PASSWORD}
+    options: --clean --if-exists
+store_config_files: true
+keep_daily: 3
+keep_weekly: 2
+keep_monthly: 1
+checks:
+  - name: repository
+  - name: archives
+    frequency: 2 weeks
+ssh_command: ssh -o StrictHostKeyChecking=no -i /run/secrets/rsync_net
+archive_name_format: homelab-{now}
+match_archives: sh:homelab-*
