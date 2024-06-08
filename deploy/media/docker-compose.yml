@@ -105,7 +105,6 @@ services:
       - /mnt/storage/media/tv:/media/tv
       - /mnt/storage/media/movies:/media/movies
       - /mnt/storage/media/music:/media/music
-      - /home/tarkah/projects/misc/xteve_lazystream/appdata/xteve/.xteve/data/:/xteve/
     environment:
       - PGID
       - PUID
