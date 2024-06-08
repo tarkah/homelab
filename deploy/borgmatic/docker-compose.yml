@@ -17,7 +17,7 @@ services:
       - /mnt/storage:/storage
       - ./crontab.txt:/etc/borgmatic.d/crontab.txt
       - ./homelab-data.yml:/etc/borgmatic.d/homelab-data.yml
-      # - ./storage.yml:/etc/borgmatic.d/storage.yml
+      - ./storage.yml:/etc/borgmatic.d/storage.yml
       - /mnt/data/borgmatic/borg/config:/root/.config/borg
       - /mnt/data/borgmatic/borg/cache:/root/.cache/borg
     networks:

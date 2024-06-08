@@ -1,0 +1,24 @@
+patterns:
+  - "R /storage/"
+  # Handled by syncthing
+  - "! storage/documents/tarkah/sync"
+  - "+ storage/documents"
+  - "+ storage/photos"
+  - "+ storage/media/music"
+  - "- storage/**"
+repositories:
+  - path: ssh://${RSYNC_NET_USER}@${RSYNC_NET_HOST}/./storage
+    label: rsync_net_storage
+working_directory: /storage
+store_config_files: true
+keep_daily: 5
+keep_weekly: 4
+keep_monthly: 12
+keep_yearly: 2
+checks:
+  - name: repository
+  - name: archives
+    frequency: 2 weeks
+ssh_command: ssh -o StrictHostKeyChecking=no -i /run/secrets/rsync_net
+archive_name_format: storage-{now}
+match_archives: sh:storage-*
