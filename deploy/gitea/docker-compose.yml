@@ -1,0 +1,42 @@
+services:
+  gitea:
+    image: gitea/gitea:latest
+    environment:
+      - USER_UID=${PUID}
+      - USER_GID=${PGID}
+      - GITEA__database__DB_TYPE=postgres
+      - GITEA__database__HOST=gitea-db:5432
+      - GITEA__database__NAME=${GITEA_DB_NAME}
+      - GITEA__database__USER=${GITEA_DB_USER}
+      - GITEA__database__PASSWD=${GITEA_DB_PASSWORD}
+      - DISABLE_REGISTRATION=true
+    volumes:
+      - /mnt/data/gitea:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "222:22"
+    networks:
+      homelab:
+    labels:
+      caddy: gitea.${HOMELAB_DOMAIN}
+      caddy.import: common
+      caddy.reverse_proxy: "{{upstreams 3000}}"
+    restart: unless-stopped
+    depends_on:
+      - gitea-db
+
+  gitea-db:
+    image: postgres:14
+    environment:
+      - POSTGRES_USER=${GITEA_DB_USER}
+      - POSTGRES_PASSWORD=${GITEA_DB_PASSWORD}
+      - POSTGRES_DB=${GITEA_DB_NAME}
+    volumes:
+      - gitea-postgres:/var/lib/postgresql/data
+    networks:
+      homelab:
+    restart: unless-stopped
+
+volumes:
+  gitea-postgres:

@@ -4,7 +4,7 @@ patterns:
   - "+ data/overseerr/settings.json"
   - "+ data/sabnzbd/sabnzbd.ini"
   - "+ re:^data\/(lidarr|sonarr|radarr)\/config.xml"
-  - "+ re:^data\/(plex|syncthing|wireguard)"
+  - "+ re:^data\/(plex|syncthing|wireguard|gitea)"
   - "- data/**"
 repositories:
   - path: /storage/backup/homelab
@@ -26,6 +26,11 @@ postgresql_databases:
     hostname: immich-database
     username: ${IMMICH_DB_USER}
     password: ${IMMICH_DB_PASSWORD}
+    options: --clean --if-exists
+  - name: all
+    hostname: gitea-db
+    username: ${GITEA_DB_USER}
+    password: ${GITEA_DB_PASSWORD}
     options: --clean --if-exists
 store_config_files: true
 keep_daily: 3
