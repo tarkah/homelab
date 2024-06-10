@@ -6,6 +6,8 @@ services:
       - BORG_PASSPHRASE
       - IMMICH_DB_USER
       - IMMICH_DB_PASSWORD
+      - GITEA_DB_USER
+      - GITEA_DB_PASSWORD
       - RSYNC_NET_USER
       - RSYNC_NET_HOST
       - RUN_ON_STARTUP=true
