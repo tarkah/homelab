@@ -18,6 +18,7 @@ services:
     volumes:
       - /mnt/data/paperless:/usr/src/paperless/data
       - /mnt/storage/documents/paperless:/usr/src/paperless/media
+      - paperless-consume:/usr/src/paperless/consume
     networks:
       homelab:
     labels:
@@ -28,5 +29,19 @@ services:
       - paperless-redis
     restart: unless-stopped
 
+  scan-hp:
+    image: manuc66/node-hp-scan-to:master
+    environment:
+      - IP=10.0.1.208
+      - LABEL=scan
+      - PATTERN="scan"_dd.mm.yyyy_hh:MM:ss
+      - PGID
+      - PUID
+      - TZ
+    volumes:
+      - paperless-consume:/scan
+    restart: always
+
 volumes:
   paperless-redis:
+  paperless-consume:
