@@ -1,0 +1,32 @@
+services:
+  paperless-redis:
+    image: docker.io/library/redis:7
+    volumes:
+      - paperless-redis:/data
+    networks:
+      homelab:
+    restart: unless-stopped
+
+  paperless:
+    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    environment:
+      PAPERLESS_REDIS: redis://paperless-redis:6379
+      PAPERLESS_URL: https://paperless.${HOMELAB_DOMAIN}
+      PAPERLESS_TIME_ZONE: ${TZ}
+      USERMAP_UID: ${PUID}
+      USERMAP_GID: ${PGID}
+    volumes:
+      - /mnt/data/paperless:/usr/src/paperless/data
+      - /mnt/storage/documents/paperless:/usr/src/paperless/media
+    networks:
+      homelab:
+    labels:
+      caddy: paperless.${HOMELAB_DOMAIN}
+      caddy.import: common
+      caddy.reverse_proxy: "{{upstreams 8000}}"
+    depends_on:
+      - paperless-redis
+    restart: unless-stopped
+
+volumes:
+  paperless-redis:

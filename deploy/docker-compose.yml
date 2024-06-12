@@ -5,6 +5,7 @@ include:
   - gitea/docker-compose.yml
   - immich/docker-compose.yml
   - media/docker-compose.yml
+  - paperless/docker-compose.yml
   - syncthing/docker-compose.yml
   - wireguard/docker-compose.yml
 

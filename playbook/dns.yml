@@ -22,4 +22,5 @@
       - { record: photos, value: 10.0.2.20 }
       - { record: syncthing, value: 10.0.2.20 }
       - { record: gitea, value: 10.0.2.20 }
+      - { record: paperless, value: 10.0.2.20 }
       - { record: wireguard, value: 68.224.246.12 }

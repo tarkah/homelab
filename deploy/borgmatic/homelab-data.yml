@@ -4,7 +4,7 @@ patterns:
   - "+ data/overseerr/settings.json"
   - "+ data/sabnzbd/sabnzbd.ini"
   - "+ re:^data\/(lidarr|sonarr|radarr)\/config.xml"
-  - "+ re:^data\/(plex|syncthing|wireguard|gitea)"
+  - "+ re:^data\/(plex|syncthing|wireguard|gitea|paperless)"
   - "- data/**"
 repositories:
   - path: /storage/backup/homelab
@@ -20,6 +20,8 @@ sqlite_databases:
     path: /data/sonarr/sonarr.db
   - name: overseerr
     path: /data/overseerr/db/db.sqlite3
+  - name: paperless
+    path: /data/paperless/db.sqlite3
 postgresql_databases:
   - name: all
     hostname: immich-database
