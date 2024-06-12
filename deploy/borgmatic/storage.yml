@@ -9,7 +9,6 @@ patterns:
 repositories:
   - path: ssh://${RSYNC_NET_USER}@${RSYNC_NET_HOST}/./storage
     label: rsync_net_storage
-working_directory: /storage
 store_config_files: true
 keep_daily: 5
 keep_weekly: 4
