@@ -26,6 +26,8 @@
             fish
             rsync
             borgmatic
+            nodejs_20
+            nodePackages.immich
 
             (python3.withPackages (p: with p; [
               jinja2
