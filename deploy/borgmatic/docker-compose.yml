@@ -11,6 +11,7 @@ services:
       - RSYNC_NET_USER
       - RSYNC_NET_HOST
       - RUN_ON_STARTUP=true
+      - PUSHOVER_URL=pover://${PUSHOVER_USER_KEY}@${PUSHOVER_TOKEN}
     secrets:
       - source: rsync_net
         mode: 0400

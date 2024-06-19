@@ -44,3 +44,22 @@ checks:
 ssh_command: ssh -o StrictHostKeyChecking=no -i /run/secrets/rsync_net
 archive_name_format: homelab-{now}
 match_archives: sh:homelab-*
+apprise:
+  services:
+    - url: ${PUSHOVER_URL}
+      label: pushover
+  send_logs: true
+  logs_size_limit: 1024
+  start:
+    title: Borgmatic - homelab-data
+    body: Started
+  finish:
+    title: Borgmatic - homelab-data
+    body: Finished
+  fail:
+    title: Borgmatic - homelab-data
+    body: Failed
+  states:
+    - start
+    - finish
+    - fail
