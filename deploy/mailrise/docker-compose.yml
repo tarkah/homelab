@@ -1,0 +1,14 @@
+services:
+  mailrise:
+    image: yoryan/mailrise
+    volumes:
+      - ./mailrise.conf:/etc/mailrise.conf:ro
+    environment:
+      - MAILRISE_ADMIN_PASSWORD
+      - PUSHOVER_URL=pover://${PUSHOVER_USER_KEY}@${PUSHOVER_TOKEN}
+      - SMTP_HOSTNAME=mailrise.${HOMELAB_DOMAIN}
+    networks:
+      homelab:
+    ports:
+      - 25:8025
+    restart: unless-stopped
