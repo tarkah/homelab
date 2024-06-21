@@ -1,0 +1,24 @@
+services:
+  grafana:
+    image: grafana/grafana
+    volumes:
+      - /mnt/data/monitoring/grafana:/var/lib/grafana
+    networks:
+      homelab:
+    labels:
+      caddy: grafana.${HOMELAB_DOMAIN}
+      caddy.import: common
+      caddy.reverse_proxy: "{{upstreams 3000}}"
+    restart: unless-stopped
+  influxdb:
+    image: influxdb:2
+    volumes:
+      - /mnt/data/monitoring/influxdb/config:/etc/influxdb2
+      - /mnt/data/monitoring/influxdb/data:/var/lib/influxdb2
+    networks:
+      homelab:
+    labels:
+      caddy: influxdb.${HOMELAB_DOMAIN}
+      caddy.import: common
+      caddy.reverse_proxy: "{{upstreams 8086}}"
+    restart: unless-stopped
