@@ -37,3 +37,7 @@ down *SERVICE:
 # Ping hosts using provided pattern
 ping pattern="all":
     ansible -i playbook/inventory -m ping {{pattern}}
+
+# Show Wireguard QR for peer
+show-wireguard peer="1":
+    ssh -t 10.0.2.20 -- docker compose -f ./deploy/docker-compose.yml exec wireguard /app/show-peer {{peer}}
