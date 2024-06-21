@@ -1,0 +1,10 @@
+services:
+  memories:
+    image: gitea.${HOMELAB_DOMAIN}/${HOMELAB_USERNAME}/memories:latest
+    networks:
+      homelab:
+    labels:
+      caddy: memories.${HOMELAB_DOMAIN}
+      caddy.import: common
+      caddy.reverse_proxy: "{{upstreams 4174}}"
+    restart: unless-stopped

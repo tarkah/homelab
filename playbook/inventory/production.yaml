@@ -5,6 +5,7 @@ all:
     username: '{{ lookup("env", "HOMELAB_USERNAME") }}'
     password: '{{ lookup("env", "HOMELAB_PASSWORD") }}'
     cloudflare_api_token: '{{ lookup("env", "CLOUDFLARE_API_TOKEN") }}'
+    homelab_domain: '{{ lookup("env", "HOMELAB_DOMAIN") }}'
 servers:
   hosts:
     pve01:

@@ -3,27 +3,28 @@
   tasks:
   - name: Create A record
     community.general.cloudflare_dns:
-      zone: tarkah.xyz
+      zone: "{{ homelab_domain }}"
       record: "{{ item.record }}"
       type: A
       value: "{{ item.value }}"
       api_token: "{{ cloudflare_api_token }}"
       solo: true
     with_items:
-      - { record: pve01, value: 10.0.1.50 }
-      - { record: nfs01, value: 10.0.2.10 }
-      - { record: whoami, value: 10.0.2.20 }
-      - { record: sabnzbd, value: 10.0.2.20 }
-      - { record: sonarr, value: 10.0.2.20 }
-      - { record: radarr, value: 10.0.2.20 }
-      - { record: lidarr, value: 10.0.2.20 }
-      - { record: overseerr, value: 10.0.2.20 }
-      - { record: plex, value: 10.0.2.20 }
-      - { record: photos, value: 10.0.2.20 }
-      - { record: syncthing, value: 10.0.2.20 }
-      - { record: gitea, value: 10.0.2.20 }
-      - { record: paperless, value: 10.0.2.20 }
-      - { record: mailrise, value: 10.0.2.20 }
-      - { record: grafana, value: 10.0.2.20 }
-      - { record: influxdb, value: 10.0.2.20 }
       - { record: wireguard, value: 68.224.246.12 }
+      - { record: pve01    , value: 10.0.1.50 }
+      - { record: nfs01    , value: 10.0.2.10 }
+      - { record: gitea    , value: 10.0.2.20 }
+      - { record: grafana  , value: 10.0.2.20 }
+      - { record: influxdb , value: 10.0.2.20 }
+      - { record: lidarr   , value: 10.0.2.20 }
+      - { record: mailrise , value: 10.0.2.20 }
+      - { record: memories , value: 10.0.2.20 }
+      - { record: overseerr, value: 10.0.2.20 }
+      - { record: paperless, value: 10.0.2.20 }
+      - { record: photos   , value: 10.0.2.20 }
+      - { record: plex     , value: 10.0.2.20 }
+      - { record: radarr   , value: 10.0.2.20 }
+      - { record: sabnzbd  , value: 10.0.2.20 }
+      - { record: sonarr   , value: 10.0.2.20 }
+      - { record: syncthing, value: 10.0.2.20 }
+      - { record: whoami   , value: 10.0.2.20 }

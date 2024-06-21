@@ -6,6 +6,7 @@ include:
   - immich/docker-compose.yml
   - mailrise/docker-compose.yml
   - media/docker-compose.yml
+  - memories/docker-compose.yml
   - monitoring/docker-compose.yml
   - paperless/docker-compose.yml
   - syncthing/docker-compose.yml

@@ -2,6 +2,7 @@ services:
   borgmatic:
     image: ghcr.io/borgmatic-collective/borgmatic:latest
     environment:
+      - HOMELAB_USERNAME
       - TZ
       - BORG_PASSPHRASE
       - IMMICH_DB_USER

@@ -1,7 +1,7 @@
 patterns:
   - "R /storage/"
   # Handled by syncthing
-  - "! storage/documents/tarkah/sync"
+  - "! storage/documents/${HOMELAB_USERNAME}/sync"
   - "+ storage/documents"
   - "+ storage/photos"
   - "+ storage/media/music"

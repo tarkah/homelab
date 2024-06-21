@@ -24,15 +24,15 @@ dns:
 
 # Show logs
 logs *SERVICE:
-    ssh -t tarkah@10.0.2.20 -- docker compose -f ./deploy/docker-compose.yml logs --follow {{SERVICE}}
+    ssh -t 10.0.2.20 -- docker compose -f ./deploy/docker-compose.yml logs --follow {{SERVICE}}
 
 # Exec
 exec SERVICE CMD *ARGS:
-    ssh -t tarkah@10.0.2.20 -- docker compose -f ./deploy/docker-compose.yml exec {{SERVICE}} {{CMD}} {{ARGS}}
+    ssh -t 10.0.2.20 -- docker compose -f ./deploy/docker-compose.yml exec {{SERVICE}} {{CMD}} {{ARGS}}
 
 # Bring service down
 down *SERVICE:
-    ssh -t tarkah@10.0.2.20 -- docker compose -f ./deploy/docker-compose.yml down {{SERVICE}}
+    ssh -t 10.0.2.20 -- docker compose -f ./deploy/docker-compose.yml down {{SERVICE}}
 
 # Ping hosts using provided pattern
 ping pattern="all":
