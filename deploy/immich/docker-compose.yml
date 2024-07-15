@@ -1,10 +1,12 @@
 services:
   immich-server:
-    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
+    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-v1.108.0}
     command: ['start.sh', 'immich']
     volumes:
       - /mnt/storage/photos:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
+    devices:
+      - /dev/dri:/dev/dri
     environment:
       HOST: "0.0.0.0"
       REDIS_HOSTNAME: immich-redis
@@ -24,31 +26,8 @@ services:
       caddy.reverse_proxy: "{{upstreams 3001}}"
     restart: unless-stopped
 
-  immich-microservices:
-    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-release}
-    devices:
-      - /dev/dri:/dev/dri
-    command: ['start.sh', 'microservices']
-    volumes:
-      - /mnt/storage/photos:/usr/src/app/upload
-      - /etc/localtime:/etc/localtime:ro
-    environment:
-      HOST: "0.0.0.0"
-      REDIS_HOSTNAME: immich-redis
-      DB_HOSTNAME: immich-database
-      DB_PASSWORD: ${IMMICH_DB_PASSWORD}
-      DB_USERNAME: ${IMMICH_DB_USER}
-      DB_DATABASE_NAME: ${IMMICH_DB_NAME}
-    depends_on:
-      - immich-redis
-      - immich-database
-    user: ${PUID}:${PGID}
-    networks:
-      homelab:
-    restart: unless-stopped
-
   immich-machine-learning:
-    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-release}
+    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-v1.108.0}
     volumes:
       - model-cache:/cache
     networks:
