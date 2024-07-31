@@ -16,8 +16,8 @@ services:
       USERMAP_UID: ${PUID}
       USERMAP_GID: ${PGID}
     volumes:
-      - /mnt/data/paperless:/usr/src/paperless/data
-      - /mnt/storage/documents/paperless:/usr/src/paperless/media
+      - /mnt/data/paperless/data:/usr/src/paperless/data
+      - /mnt/data/paperless/media:/usr/src/paperless/media
       - paperless-consume:/usr/src/paperless/consume
     networks:
       homelab:

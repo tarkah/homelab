@@ -7,7 +7,7 @@ patterns:
   - "+ re:^data\/(plex|syncthing|wireguard|gitea|paperless)"
   - "- data/**"
 repositories:
-  - path: /storage/backup/homelab
+  - path: /storage/backup
     label: storage
   - path: ssh://${RSYNC_NET_USER}@${RSYNC_NET_HOST}/./homelab
     label: rsync_net
@@ -21,7 +21,7 @@ sqlite_databases:
   - name: overseerr
     path: /data/overseerr/db/db.sqlite3
   - name: paperless
-    path: /data/paperless/db.sqlite3
+    path: /data/paperless/data/db.sqlite3
 postgresql_databases:
   - name: all
     hostname: immich-database

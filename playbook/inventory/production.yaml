@@ -19,7 +19,7 @@ vms:
     docker01:
       ansible_host: 10.0.2.20
       nfs_client_mounts:
-        - src: 10.0.2.10:/storage
+        - src: 10.0.2.10:/homelab
           dest: /mnt/storage
       disk_mounts:
         - src: /dev/sdb
@@ -40,7 +40,8 @@ proxmox:
           swap: 2048
           cores: 2
           mounts:
-            mp0: /rpool/NAS,mp=/storage
+            mp0: /rpool/NAS/homelab,mp=/homelab
+            mp2: /rpool/NAS/public,mp=/public
           ip: 10.0.2.10/24
           gateway: 10.0.2.1
           mac: BC:24:11:56:68:00
@@ -66,7 +67,8 @@ nfs:
   hosts:
     nfs01:
       nfs_exports:
-        - "/storage *(rw)"
+        - "/homelab 10.0.2.20(rw)"
+        - "/public 10.0.1.0/24(rw)"
 igpu_guest:
   hosts:
     docker01:
