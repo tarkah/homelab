@@ -1,0 +1,40 @@
+services:
+  home-assistant:
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - /mnt/data/home-assistant:/config
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      homelab:
+    labels:
+      caddy: home-assistant.${HOMELAB_DOMAIN}
+      caddy.import: common
+      caddy.reverse_proxy: "{{upstreams 8123}}"
+    restart: unless-stopped
+  zigbee2mqtt:
+    image: koenkk/zigbee2mqtt
+    environment:
+        - TZ
+    volumes:
+        - /mnt/data/zigbee2mqtt:/app/data
+        - /run/udev:/run/udev:ro
+    devices:
+      - /dev/serial/by-id/usb-Nabu_Casa_Home_Assistant_Connect_ZBT-1_bee8cb9250eced11a6a6141d62c613ac-if00-port0:/dev/ttyUSB0
+    group_add:
+      - dialout
+    user: ${PUID}:${PGID}
+    networks:
+      homelab:
+    labels:
+      caddy: zigbee2mqtt.${HOMELAB_DOMAIN}
+      caddy.import: common
+      caddy.reverse_proxy: "{{upstreams 8080}}"
+    restart: unless-stopped
+  mosquitto:
+    image: eclipse-mosquitto
+    volumes:
+      - /mnt/data/mosquitto/data:/mosquitto/data
+      - /mnt/data/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+    networks:
+      homelab:
+    restart: unless-stopped

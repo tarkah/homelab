@@ -4,7 +4,7 @@ patterns:
   - "+ data/overseerr/settings.json"
   - "+ data/sabnzbd/sabnzbd.ini"
   - "+ re:^data\/(lidarr|sonarr|radarr)\/config.xml"
-  - "+ re:^data\/(plex|syncthing|wireguard|gitea|paperless)"
+  - "+ re:^data\/(plex|syncthing|wireguard|gitea|paperless|home-assistant)"
   - "- data/**"
 repositories:
   - path: /storage/backup
@@ -22,6 +22,8 @@ sqlite_databases:
     path: /data/overseerr/db/db.sqlite3
   - name: paperless
     path: /data/paperless/data/db.sqlite3
+  - name: home-assistant
+    path: /data/home-assistant/home-assistant_v2.db
 postgresql_databases:
   - name: all
     hostname: immich-database
