@@ -34,6 +34,10 @@ exec SERVICE CMD *ARGS:
 down *SERVICE:
     ssh -t 10.0.2.20 -- docker compose -f ./deploy/docker-compose.yml down {{SERVICE}}
 
+# Restart service
+restart SERVICE:
+    ssh -t 10.0.2.20 -- docker compose -f ./deploy/docker-compose.yml restart {{SERVICE}}
+
 # Ping hosts using provided pattern
 ping pattern="all":
     ansible -i playbook/inventory -m ping {{pattern}}
