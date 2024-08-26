@@ -38,3 +38,8 @@ services:
     networks:
       homelab:
     restart: unless-stopped
+  mdns-repeater:
+    image: monstrenyatko/mdns-repeater:latest
+    command: mdns-repeater-app -f br-5fb5f6394eb0 eth0
+    network_mode: "host"
+    restart: unless-stopped
