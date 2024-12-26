@@ -1,6 +1,6 @@
 services:
   immich-server:
-    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-v1.108.0}
+    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-v1.112.1}
     volumes:
       - /mnt/storage/photos:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
@@ -26,7 +26,7 @@ services:
     restart: unless-stopped
 
   immich-machine-learning:
-    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-v1.108.0}
+    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-v1.112.1}
     volumes:
       - model-cache:/cache
     networks:
