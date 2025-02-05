@@ -24,6 +24,15 @@ services:
       - ./storage.yml:/etc/borgmatic.d/storage.yml
       - /mnt/data/borgmatic/borg/config:/root/.config/borg
       - /mnt/data/borgmatic/borg/cache:/root/.cache/borg
+    # Uncomment for restoring from backups
+    #   - /mnt/restore:/restore
+    # security_opt:
+    #   - apparmor:unconfined
+    #   - label:disable
+    # devices:
+    #   - /dev/fuse
+    # cap_add:
+    #   - SYS_ADMIN
     networks:
       homelab:
     restart: unless-stopped
