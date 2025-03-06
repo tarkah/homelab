@@ -1,13 +1,13 @@
 services:
   immich-server:
-    image: ghcr.io/immich-app/immich-server:${IMMICH_VERSION:-v1.112.1}
+    image: ghcr.io/immich-app/immich-server:v1.128.0
     volumes:
       - /mnt/storage/photos:/usr/src/app/upload
       - /etc/localtime:/etc/localtime:ro
     devices:
       - /dev/dri:/dev/dri
     environment:
-      HOST: "0.0.0.0"
+      IMMICH_HOST: "0.0.0.0"
       REDIS_HOSTNAME: immich-redis
       DB_HOSTNAME: immich-database
       DB_PASSWORD: ${IMMICH_DB_PASSWORD}
@@ -22,11 +22,11 @@ services:
     labels:
       caddy: photos.${HOMELAB_DOMAIN}
       caddy.import: common
-      caddy.reverse_proxy: "{{upstreams 3001}}"
+      caddy.reverse_proxy: "{{upstreams 2283}}"
     restart: unless-stopped
 
   immich-machine-learning:
-    image: ghcr.io/immich-app/immich-machine-learning:${IMMICH_VERSION:-v1.112.1}
+    image: ghcr.io/immich-app/immich-machine-learning:v1.128.0
     volumes:
       - model-cache:/cache
     networks:
