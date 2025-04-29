@@ -11,6 +11,7 @@ repositories:
     label: storage
   - path: ssh://${RSYNC_NET_USER}@${RSYNC_NET_HOST}/./homelab
     label: rsync_net
+remote_path: borg12
 sqlite_databases:
   - name: lidarr
     path: /data/lidarr/lidarr.db
