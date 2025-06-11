@@ -6,6 +6,7 @@ all:
     password: '{{ lookup("env", "HOMELAB_PASSWORD") }}'
     cloudflare_api_token: '{{ lookup("env", "CLOUDFLARE_API_TOKEN") }}'
     homelab_domain: '{{ lookup("env", "HOMELAB_DOMAIN") }}'
+    external_ip: '{{ lookup("env", "EXTERNAL_IP") }}'
 servers:
   hosts:
     pve01:

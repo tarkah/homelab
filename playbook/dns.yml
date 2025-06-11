@@ -10,7 +10,7 @@
       api_token: "{{ cloudflare_api_token }}"
       solo: true
     with_items:
-      - { record: wireguard      , value: 68.224.246.12 }
+      - { record: wireguard      , value: "{{ external_ip }}" }
       - { record: pve01          , value: 10.0.1.50 }
       - { record: nfs01          , value: 10.0.2.10 }
       - { record: gitea          , value: 10.0.2.20 }
