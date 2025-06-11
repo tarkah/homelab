@@ -24,3 +24,4 @@
       project_src: "/home/{{ username }}/deploy"
       state: present
       dependencies: false
+      remove_orphans: true
