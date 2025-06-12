@@ -4,7 +4,8 @@ services:
     image: linuxserver/sabnzbd:latest
     volumes:
       - /mnt/data/sabnzbd:/config
-      - /mnt/storage/media/downloads:/downloads
+      - /mnt/storage/media/downloads/complete:/downloads
+      - /mnt/storage/media/downloads/incomplete:/incomplete-downloads
     environment:
       - PGID
       - PUID
