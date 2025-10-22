@@ -40,6 +40,6 @@ services:
     restart: unless-stopped
   mdns-repeater:
     image: monstrenyatko/mdns-repeater:latest
-    command: mdns-repeater-app -f br-5fb5f6394eb0 eth0
+    command: mdns-repeater-app -f br-3182e266c0ee eth0
     network_mode: "host"
     restart: unless-stopped
