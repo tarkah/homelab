@@ -81,7 +81,7 @@ services:
     volumes:
       - /mnt/data/overseerr:/config
     labels:
-      caddy: overseerr.${HOMELAB_DOMAIN} https://overseerr.${HOMELAB_DOMAIN}:8443
+      caddy: overseerr.${HOMELAB_DOMAIN}
       caddy.import: common
       caddy.reverse_proxy: "{{upstreams 5055}}"
     networks:

@@ -3,11 +3,8 @@ services:
   caddy:
     build: .
     ports:
-      # Internal
       - 80:80
       - 443:443
-      # External
-      - 8443:8443
     environment:
       - CLOUDFLARE_API_TOKEN
     networks:
@@ -29,7 +26,7 @@ services:
       homelab:
     labels:
       # External and internal
-      caddy: whoami.${HOMELAB_DOMAIN} https://whoami.${HOMELAB_DOMAIN}:8443
+      caddy: whoami.${HOMELAB_DOMAIN}
       caddy.import: common
       caddy.reverse_proxy: "{{upstreams 80}}"
 
