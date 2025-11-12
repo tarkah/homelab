@@ -2,8 +2,9 @@
 include:
   - borgmatic/docker-compose.yml
   - caddy/docker-compose.yml
-  - home-assistant/docker-compose.yml
+  - energy_sync/docker-compose.yml
   - gitea/docker-compose.yml
+  - home-assistant/docker-compose.yml
   - immich/docker-compose.yml
   - mailrise/docker-compose.yml
   - media/docker-compose.yml
