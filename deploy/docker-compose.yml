@@ -12,7 +12,6 @@ include:
   - monitoring/docker-compose.yml
   - paperless/docker-compose.yml
   - syncthing/docker-compose.yml
-  - wireguard/docker-compose.yml
 
 networks:
   homelab:
