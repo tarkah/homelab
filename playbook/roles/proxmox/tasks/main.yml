@@ -17,6 +17,7 @@
   with_items:
     - python3-proxmoxer
     - python3-requests
+    - intel-microcode
 
 - name: iGPU passthrough
   include_tasks: igpu_passthrough.yml

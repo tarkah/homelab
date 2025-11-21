@@ -33,10 +33,7 @@ services:
       - POSTGRES_PASSWORD=${GITEA_DB_PASSWORD}
       - POSTGRES_DB=${GITEA_DB_NAME}
     volumes:
-      - gitea-postgres:/var/lib/postgresql/data
+      - /mnt/data/gitea-db:/var/lib/postgresql/data
     networks:
       homelab:
     restart: unless-stopped
-
-volumes:
-  gitea-postgres:
